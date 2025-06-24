@@ -40,6 +40,32 @@ class YOLOApp:
         )
         logging.info("Training completed. Results are saved in: %s", results_path)
 
+    def fine_tune(self, data_path, pretrained_model_path, results_path,
+                  epochs=20, batch_size=16, img_size=640):
+        """
+        Fine-tune an existing YOLO model on new data.
+
+        Args:
+            data_path (str): Path to the new data configuration file.
+            pretrained_model_path (str): Path to the already trained YOLO model.
+            results_path (str): Directory to save fine-tuning results.
+            epochs (int, optional): Number of training epochs. Default is 20.
+            batch_size (int, optional): Batch size. Default is 16.
+            img_size (int, optional): Image size for training. Default is 640.
+        """
+        os.makedirs(results_path, exist_ok=True)
+        model = YOLO(pretrained_model_path)
+        model.train(
+            data=data_path,
+            epochs=epochs,
+            batch=batch_size,
+            imgsz=img_size,
+            project=results_path,
+            name='yolo_finetune',
+            exist_ok=True
+        )
+        logging.info("Fine-tuning completed. Results saved in: %s", results_path)
+
     def demo(self, model_path, video_path):
         """
         Run the demo using the trained YOLO model on a video file.
