@@ -77,6 +77,40 @@ class YOLOApp:
         cap.release()
         cv2.destroyAllWindows()
 
+    def live(self, model_path):
+        """
+        Run real-time object detection using the YOLO model and webcam.
+
+        Args:
+            model_path (str): Path to the trained YOLO model.
+        """
+        model = YOLO(model_path)
+        cap = cv2.VideoCapture(0)
+
+        if not cap.isOpened():
+            logging.error("Cannot access the webcam.")
+            return
+
+        logging.info("Starting live detection. Press 'q' to exit.")
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                logging.warning("Failed to grab frame from webcam.")
+                break
+
+            results = model.predict(source=frame, conf=0.25, stream=False)
+
+            annotated_frame = results[0].plot()
+
+            cv2.imshow('YOLO Live Detection', annotated_frame)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+
 
 if __name__ == '__main__':
     fire.Fire(YOLOApp)
