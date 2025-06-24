@@ -30,10 +30,10 @@ cd cv_test_task
 poetry install
 ```
 
-3. **Activate the virtual environment**
+3. **Install torch with cuda**
 
 ```bash
-poetry shell
+poetry run pip install --force-reinstall torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
 ```
 
 P.s. if some errors: install PyTorch manually with correct CUDA version
@@ -54,13 +54,7 @@ python dishes_detector.py demo --model_path ./models/best.pt --video_path ./samp
 ### 🏋️ Train a Model
 
 ```bash
-python dishes_detector.py train \
-  --data_path ./data.yaml \
-  --model_path yolov8n.pt \
-  --results_path ./results \
-  --epochs 150 \
-  --batch_size 16 \
-  --img_size 720
+python dishes_detector.py train --data_path ./datasets/data.yaml --model_path ./model/yolov8n.pt --results_path ./results --epochs 200 --batch_size 16 --img_size 1024
 ```
 
 ---
