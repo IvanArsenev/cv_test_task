@@ -106,11 +106,11 @@ cv_test_task/
 
 Here’s an example of detection in action:
 
-![Demo Output](./docs/demo_1.gif)
+![Demo Output](https://drive.google.com/file/d/1OxRUJMNA8H1DkSDm4UvZ8LDOn04jgYC3/view)
 
-![Demo Output](./docs/demo_2.gif)
+![Demo Output](https://drive.google.com/file/d/1KvwJujGHGqYt-xJGP84WfBj5IEUJaKrf/view)
 
-![Demo Output](./docs/demo_3.gif)
+![Demo Output](https://lh3.google.com/u/0/d/1Lzxm0OUoKu63YYSxhhrU-pLmao5K-ue-=w1920-h932-iv1)
 
 ---
 
