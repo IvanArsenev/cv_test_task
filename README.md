@@ -57,6 +57,12 @@ python dishes_detector.py demo --model_path ./models/best.pt --video_path ./samp
 python dishes_detector.py train --data_path ./datasets/data.yaml --model_path ./model/yolov8n.pt --results_path ./results --epochs 200 --batch_size 16 --img_size 1024
 ```
 
+### 🏋️ Further training
+
+```bash
+ python dishes_detector.py fine_tune --data_path ./datasets/data.yaml --pretrained_model_path ./results/yolo_training/weights/best.pt --results_path ./fine_tune --epochs 10 --batch_size 16 --img_size 1024
+```
+
 ---
 
 ## 📁 Project Structure
@@ -100,7 +106,11 @@ cv_test_task/
 
 Here’s an example of detection in action:
 
-![Demo Output](./docs/demo.gif)
+![Demo Output](./docs/demo_1.gif)
+
+![Demo Output](./docs/demo_2.gif)
+
+![Demo Output](./docs/demo_3.gif)
 
 ---
 
