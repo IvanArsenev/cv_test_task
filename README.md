@@ -51,6 +51,12 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 python dishes_detector.py demo --model_path ./models/best.pt --video_path ./sample_video.mp4
 ```
 
+### Run Inference on camera capture
+
+```bash
+python dishes_detector.py live --model_path ./models/best.pt --save_local False
+```
+
 ### Train a Model
 
 ```bash
