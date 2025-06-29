@@ -1,19 +1,19 @@
-# 🍽️ Object Detection for Dishes using YOLOv8
+# Object Detection for Dishes using YOLOv8
 
 A simple and powerful Python tool for training and running object detection on dishware using the YOLOv8 model. This project provides a streamlined pipeline to train custom YOLO models and run real-time inference on video streams.
 
-## 🌟 Features
+## Features
 
-* 📦 **YOLOv8 Training**: Custom training with configurable hyperparameters
-* 🎥 **Real-Time Inference**: Run object detection on video files using pretrained models
-* 🔧 **Simple CLI Interface**: Use command-line arguments via [`fire`](https://github.com/google/python-fire)
-* 💾 **Logging & Output Management**: All logs and results are stored neatly for further analysis
-* 🖼️ **Live Visualization**: View results live with bounding boxes drawn on frames
-* 🐍 **Pythonic & Maintainable Codebase with Poetry**
+* **YOLOv8 Training**: Custom training with configurable hyperparameters
+* **Real-Time Inference**: Run object detection on video files using pretrained models
+* **Simple CLI Interface**: Use command-line arguments via [`fire`](https://github.com/google/python-fire)
+* **Logging & Output Management**: All logs and results are stored neatly for further analysis
+* **Live Visualization**: View results live with bounding boxes drawn on frames
+* **Pythonic & Maintainable Codebase with Poetry**
 
 ---
 
-## 🛠️ Installation
+## Installation
 
 ### ! Make sure you have Python 3.11 and Poetry installed
 
@@ -43,36 +43,42 @@ pip install torch torchvision torchaudio --extra-index-url https://download.pyto
 
 ---
 
-## 🚀 Usage
+## Usage
 
-### ▶️ Run Inference on a Video
+### Run Inference on a Video
 
 ```bash
 python dishes_detector.py demo --model_path ./models/best.pt --video_path ./sample_video.mp4
 ```
 
-### 🏋️ Train a Model
+### Train a Model
 
 ```bash
-python dishes_detector.py train --data_path ./datasets/data.yaml --model_path ./model/yolov8n.pt --results_path ./results --epochs 200 --batch_size 16 --img_size 1024
+python dishes_detector.py train --data_path ./datasets/data.yaml --model_path ./model/yolov8n.pt --results_path ./results_old --epochs 200 --batch_size 16 --img_size 1024
 ```
 
-### 🏋️ Further training
+### Further training
 
 ```bash
- python dishes_detector.py fine_tune --data_path ./datasets/data.yaml --pretrained_model_path ./results/yolo_training/weights/best.pt --results_path ./fine_tune --epochs 10 --batch_size 16 --img_size 1024
+ python dishes_detector.py fine_tune --data_path ./datasets/data.yaml --pretrained_model_path ./results_old/yolo_training/weights/best.pt --results_path ./fine_tune --epochs 10 --batch_size 16 --img_size 1024
+```
+
+### Metrics
+
+```bash
+ python dishes_detector.py metrics --model_path ./results/yolo_training/weights/best.pt --data_path ./dataset/data.yaml
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 cv_test_task/
 │
 ├── dishes_detector.py       # Main CLI app with train & demo logic
 ├── pyproject.toml           # Poetry config with dependencies
-├── ./datasets/data.yaml     # Dataset config for YOLOv8
+├── ./datasets/data.yaml     # Dataset config for YOLO
 ├── models/                  # Pretrained or trained model weights
 ├── videos/                  # Video files for inference
 ├── results/                 # Output from training
@@ -80,60 +86,78 @@ cv_test_task/
 ```
 ---
 
-## ⚙️ Parameters
+## Parameters
 
 ### Training
 
-| Argument       | Description                              | Default     |
-| -------------- | ---------------------------------------- | ----------- |
-| `data_path`    | Path to `data.yaml` config file          | —           |
-| `model_path`   | Base YOLO model path (e.g. `yolov8n.pt`) | —           |
-| `results_path` | Directory to save training results       | `./results` |
-| `epochs`       | Number of training epochs                | `50`        |
-| `batch_size`   | Number of samples per batch              | `16`        |
-| `img_size`     | Image size for training                  | `640`       |
+| Argument        | Description                              | Default      |
+|-----------------|------------------------------------------|--------------|
+| `data_path`     | Path to `data.yaml` config file          | —            |
+| `model_path`    | Base YOLO model path (e.g. `yolov9e.pt`) | —            |
+| `results_path`  | Directory to save training results       | `./results`  |
+| `epochs`        | Number of training epochs                | `50`         |
+| `batch_size`    | Number of samples per batch              | `16`         |
+| `img_size`      | Image size for training                  | `640`        |
 
 ### Demo
 
-| Argument     | Description                        | Default |
-| ------------ | ---------------------------------- | ------- |
-| `model_path` | Path to trained YOLO model (`.pt`) | —       |
-| `video_path` | Input video file path              | —       |
+| Argument      | Description                         | Default  |
+|---------------|-------------------------------------|----------|
+| `model_path`  | Path to trained YOLO model (`.pt`)  | —        |
+| `video_path`  | Input video file path               | —        |
+
+### Metrics
+
+| Argument     | Description                          | Default  |
+|--------------|--------------------------------------|----------|
+| `model_path` | Path to trained YOLO model (`.pt`)   | —        |
+| `data_path`  | Path to `data.yaml` config file      | —        |
+
+### Fine tune
+
+| Argument                | Description                              | Default     |
+|-------------------------|------------------------------------------|-------------|
+| `data_path`             | Path to `data.yaml` config file          | —           |
+| `pretrained_model_path` | Base YOLO model path (e.g. `yolov9e.pt`) | —           |
+| `results_path`          | Directory to save fine-tuning results    | `./results` |
+| `epochs`                | Number of training epochs                | `50`        |
+| `batch_size`            | Number of samples per batch              | `16`        |
+| `img_size`              | Image size for training                  | `640`       |
 
 ---
 
-## 📸 Preview
+## Preview
 
 Here’s an example of detection in action:
 
-![Demo Output](https://drive.google.com/file/d/1OxRUJMNA8H1DkSDm4UvZ8LDOn04jgYC3/view)
+![Demo Output](./docs/demo_1.gif)
 
-![Demo Output](https://drive.google.com/file/d/1KvwJujGHGqYt-xJGP84WfBj5IEUJaKrf/view)
+![Demo Output](./docs/demo_2.gif)
 
-![Demo Output](https://lh3.google.com/u/0/d/1Lzxm0OUoKu63YYSxhhrU-pLmao5K-ue-=w1920-h932-iv1)
-
----
-
-## 📦 Dataset
-
-Open dataset to download: `https://app.roboflow.com/etbx/test_task_for_cv/2`
+![Demo Output](./docs/demo_3.gif)
 
 ---
 
-## 🤝 Contributing
+## Dataset
+
+Open dataset to download: `https://app.roboflow.com/etbx/test_task_for_cv/4`
+
+---
+
+## Contributing
 
 Contributions are welcome!
 Feel free to open issues, request features, or submit pull requests
 
 ---
 
-## 📜 License
+## License
 
 This project is no licensed
 
 ---
 
-## ✨ Credits
+## Credits
 
 * [Ultralytics YOLOv8](https://github.com/ultralytics/ultralytics)
 * [OpenCV](https://opencv.org/)

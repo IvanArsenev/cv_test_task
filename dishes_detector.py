@@ -2,6 +2,7 @@ import os
 import cv2
 import fire
 import logging
+import torch
 from ultralytics import YOLO
 
 
@@ -14,19 +15,33 @@ logging.basicConfig(
 class YOLOApp:
     """A class to train and demo YOLO models."""
 
+    def metrics(self, data_path, model_path):
+        """
+        Get the YOLO model metrics
+        Args:
+            data_path (str): Path to the data configuration file
+            model_path (str): Path to the base YOLO model
+        """
+        model = YOLO(model_path)
+        model.val(data=data_path)
+        logging.info("Metrics saved!")
+
     def train(self, data_path, model_path, results_path,
-              epochs=50, batch_size=16, img_size=640):
+              epochs=150, batch_size=16, img_size=720,
+              use_wandb=True):
         """
         Train the YOLO model.
 
         Args:
-            data_path (str): Path to the data configuration file.
-            model_path (str): Path to the base YOLO model.
-            results_path (str): Directory to save training results.
-            epochs (int, optional): Number of training epochs. Default is 50.
-            batch_size (int, optional): Training batch size. Default is 16.
-            img_size (int, optional): Image size for training. Default is 640.
+            data_path (str): Path to the data configuration file
+            model_path (str): Path to the base YOLO model
+            results_path (str): Directory to save training results
+            epochs (int, optional): Number of training epochs. Default is 150
+            batch_size (int, optional): Training batch size. Default is 16
+            img_size (int, optional): Image size for training. Default is 720
+            use_wandb (bool): Whether to use Weights & Biases logging. Default is True
         """
+        logging.info("CUDA IS OK: %s", torch.cuda.is_available())
         os.makedirs(results_path, exist_ok=True)
         model = YOLO(model_path)
         model.train(
@@ -36,7 +51,8 @@ class YOLOApp:
             imgsz=img_size,
             project=results_path,
             name='yolo_training',
-            exist_ok=True
+            exist_ok=True,
+            tracker='wandb'
         )
         logging.info("Training completed. Results are saved in: %s", results_path)
 
